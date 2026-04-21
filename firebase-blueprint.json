@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "PageContent": {
+      "title": "Page Content",
+      "description": "Dynamic content for various pages on the website",
+      "type": "object",
+      "properties": {
+        "heroTitle": { "type": "string" },
+        "heroSubtitle": { "type": "string" },
+        "sections": { "type": "array", "items": { "type": "object" } },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["heroTitle"]
+    },
+    "BlogPost": {
+      "title": "Blog Post",
+      "description": "Articles related to real estate and AI",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "content": { "type": "string" },
+        "author": { "type": "string" },
+        "category": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "published": { "type": "boolean" }
+      },
+      "required": ["title", "slug", "content", "createdAt"]
+    },
+    "TeamMember": {
+      "title": "Team Member",
+      "description": "Details of team members showcased in about us",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "bio": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["name", "role"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "List of services offered by the agency",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "iconName": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["title", "description"]
+    },
+    "SiteSettings": {
+      "title": "Site Settings",
+      "description": "Global configuration for dynamic branding like logo and favicon",
+      "type": "object",
+      "properties": {
+        "agencyName": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "faviconUrl": { "type": "string" },
+        "accentColor": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/settings/config": {
+      "schema": "SiteSettings",
+      "description": "Global configuration settings"
+    },
+    "/pages/{pageId}": {
+      "schema": "PageContent",
+      "description": "Single document for each page like 'home', 'about', etc."
+    },
+    "/blogPosts/{postId}": {
+      "schema": "BlogPost",
+      "description": "Collection of blog articles"
+    },
+    "/teamMembers/{memberId}": {
+      "schema": "TeamMember",
+      "description": "Collection of team members"
+    },
+    "/services/{serviceId}": {
+      "schema": "Service",
+      "description": "Collection of agency services"
+    }
+  }
+}

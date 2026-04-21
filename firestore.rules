@@ -1,0 +1,92 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net - Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper Primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    // Note: In this simple app, we treat any authenticated verified user as an admin.
+    // In production, we'd check against an 'admins' collection.
+    function isAdmin() {
+      return isEmailVerified() && request.auth.token.email == "ahmadhaneef5476@gmail.com";
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Connection Test
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    // Global Settings
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 1. Pages Collection
+    match /pages/{pageId} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidId(pageId);
+    }
+
+    // 2. Blog Posts Collection
+    match /blogPosts/{postId} {
+      allow get: if true;
+      allow list: if resource.data.published == true || isAdmin();
+      
+      function isValidBlogPost(data) {
+        return data.title is string && data.title.size() <= 200 &&
+               data.slug is string && data.slug.size() <= 200 &&
+               data.content is string && data.content.size() <= 50000 &&
+               data.author is string && data.author.size() <= 100;
+      }
+
+      allow create: if isAdmin() && isValidId(postId) && isValidBlogPost(incoming());
+      allow update: if isAdmin() && isValidBlogPost(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // 3. Team Members Collection
+    match /teamMembers/{memberId} {
+      allow read: if true;
+      
+      function isValidTeamMember(data) {
+        return data.name is string && data.name.size() <= 100 &&
+               data.role is string && data.role.size() <= 100 &&
+               data.bio is string && data.bio.size() <= 1000;
+      }
+
+      allow create: if isAdmin() && isValidId(memberId) && isValidTeamMember(incoming());
+      allow update: if isAdmin() && isValidTeamMember(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // 4. Services Collection
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidId(serviceId);
+    }
+  }
+}
