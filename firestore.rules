@@ -20,8 +20,6 @@ service cloud.firestore {
       return isSignedIn() && request.auth.token.email_verified == true;
     }
 
-    // Note: In this simple app, we treat any authenticated verified user as an admin.
-    // In production, we'd check against an 'admins' collection.
     function isAdmin() {
       return isEmailVerified() && request.auth.token.email == "ahmadhaneef5476@gmail.com";
     }
@@ -48,7 +46,7 @@ service cloud.firestore {
     // 1. Pages Collection
     match /pages/{pageId} {
       allow read: if true;
-      allow write: if isAdmin() && isValidId(pageId);
+      allow write: if isAdmin();
     }
 
     // 2. Blog Posts Collection
@@ -60,10 +58,12 @@ service cloud.firestore {
         return data.title is string && data.title.size() <= 200 &&
                data.slug is string && data.slug.size() <= 200 &&
                data.content is string && data.content.size() <= 50000 &&
-               data.author is string && data.author.size() <= 100;
+               data.author is string && data.author.size() <= 100 &&
+               data.category is string && data.category.size() <= 100 &&
+               data.imageUrl is string && data.imageUrl.size() <= 1000;
       }
 
-      allow create: if isAdmin() && isValidId(postId) && isValidBlogPost(incoming());
+      allow create: if isAdmin() && isValidBlogPost(incoming());
       allow update: if isAdmin() && isValidBlogPost(incoming());
       allow delete: if isAdmin();
     }
@@ -75,10 +75,12 @@ service cloud.firestore {
       function isValidTeamMember(data) {
         return data.name is string && data.name.size() <= 100 &&
                data.role is string && data.role.size() <= 100 &&
-               data.bio is string && data.bio.size() <= 1000;
+               data.bio is string && data.bio.size() <= 2000 &&
+               data.imageUrl is string && data.imageUrl.size() <= 1000 &&
+               data.order is number;
       }
 
-      allow create: if isAdmin() && isValidId(memberId) && isValidTeamMember(incoming());
+      allow create: if isAdmin() && isValidTeamMember(incoming());
       allow update: if isAdmin() && isValidTeamMember(incoming());
       allow delete: if isAdmin();
     }
