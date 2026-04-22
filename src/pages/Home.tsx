@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { 
   ArrowRight, Bot, Zap, Globe, Shield, Cpu, 
   ChevronRight, Calendar, MessageSquare, Workflow, 
