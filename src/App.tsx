@@ -8,16 +8,14 @@ import Home from '@/pages/Home';
 import About from '@/pages/About';
 import Services from '@/pages/Services';
 import Contact from '@/pages/Contact';
-import Blog from '@/pages/Blog';
-import BlogPost from '@/pages/BlogPost';
+import Portfolio from '@/pages/Portfolio';
+import PortfolioDetail from '@/pages/PortfolioDetail';
 
 // Admin
 import AdminLayout from '@/pages/admin/AdminLayout';
 import AdminDashboard from '@/pages/admin/AdminDashboard';
 import AdminLogin from '@/pages/admin/AdminLogin';
 import AdminPages from '@/pages/admin/AdminPages';
-import AdminBlog from '@/pages/admin/AdminBlog';
-import AdminTeam from '@/pages/admin/AdminTeam';
 
 export default function App() {
   return (
@@ -31,16 +29,14 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/portfolio/:id" element={<PortfolioDetail />} />
             
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="pages" element={<AdminPages />} />
-              <Route path="blog" element={<AdminBlog />} />
-              <Route path="team" element={<AdminTeam />} />
             </Route>
           </Routes>
         </main>

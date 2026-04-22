@@ -49,22 +49,19 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // 2. Blog Posts Collection
+    // 2. Portfolio Projects Collection
     match /blogPosts/{postId} {
       allow get: if true;
-      allow list: if resource.data.published == true || isAdmin();
+      allow list: if true;
       
-      function isValidBlogPost(data) {
+      function isValidProject(data) {
         return data.title is string && data.title.size() <= 200 &&
-               data.slug is string && data.slug.size() <= 200 &&
-               data.content is string && data.content.size() <= 50000 &&
-               data.author is string && data.author.size() <= 100 &&
                data.category is string && data.category.size() <= 100 &&
                data.imageUrl is string && data.imageUrl.size() <= 1000;
       }
 
-      allow create: if isAdmin() && isValidBlogPost(incoming());
-      allow update: if isAdmin() && isValidBlogPost(incoming());
+      allow create: if isAdmin() && isValidProject(incoming());
+      allow update: if isAdmin() && isValidProject(incoming());
       allow delete: if isAdmin();
     }
 

@@ -7,27 +7,32 @@
       "properties": {
         "heroTitle": { "type": "string" },
         "heroSubtitle": { "type": "string" },
-        "sections": { "type": "array", "items": { "type": "object" } },
+        "heroImage": { "type": "string" },
+        "primaryButtonText": { "type": "string" },
+        "primaryButtonLink": { "type": "string" },
+        "secondaryButtonText": { "type": "string" },
+        "secondaryButtonLink": { "type": "string" },
+        "sections": { 
+          "type": "object",
+          "description": "Flexible sections for page-specific content"
+        },
         "updatedAt": { "type": "string", "format": "date-time" }
-      },
-      "required": ["heroTitle"]
+      }
     },
-    "BlogPost": {
-      "title": "Blog Post",
-      "description": "Articles related to real estate and AI",
+    "PortfolioProject": {
+      "title": "Portfolio Project",
+      "description": "Showcase of completed work",
       "type": "object",
       "properties": {
         "title": { "type": "string" },
-        "slug": { "type": "string" },
-        "excerpt": { "type": "string" },
-        "content": { "type": "string" },
-        "author": { "type": "string" },
+        "description": { "type": "string" },
         "category": { "type": "string" },
         "imageUrl": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" },
-        "published": { "type": "boolean" }
+        "link": { "type": "string" },
+        "order": { "type": "number" },
+        "featured": { "type": "boolean" }
       },
-      "required": ["title", "slug", "content", "createdAt"]
+      "required": ["title", "category", "imageUrl"]
     },
     "TeamMember": {
       "title": "Team Member",
@@ -76,8 +81,12 @@
       "description": "Single document for each page like 'home', 'about', etc."
     },
     "/blogPosts/{postId}": {
-      "schema": "BlogPost",
-      "description": "Collection of blog articles"
+      "schema": "PortfolioProject",
+      "description": "Collection of portfolio projects (Transitioned from blogPosts)"
+    },
+    "portfolio": {
+      "schema": "PortfolioProject",
+      "description": "Legacy reference for new portfolio projects"
     },
     "/teamMembers/{memberId}": {
       "schema": "TeamMember",

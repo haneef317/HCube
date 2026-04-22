@@ -41,9 +41,7 @@ export default function AdminLayout() {
 
   const menuItems = [
     { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/admin' },
-    { name: 'Page Content', icon: <FileText size={20} />, path: '/admin/pages' },
-    { name: 'Blog Posts', icon: <FileText size={20} />, path: '/admin/blog' },
-    { name: 'Team Members', icon: <Users size={20} />, path: '/admin/team' },
+    { name: 'Manage Pages', icon: <FileText size={20} />, path: '/admin/pages' },
   ];
 
   return (
@@ -53,9 +51,9 @@ export default function AdminLayout() {
         <div className="px-8 mb-12">
             <div className="flex items-center gap-2 mb-2">
                 <Cpu size={24} className="text-[var(--color-brand-primary)]" />
-                <span className="font-display font-bold tracking-tight">AI PREMIER</span>
+                <span className="font-display font-bold tracking-tight">HCUBE TECH</span>
             </div>
-            <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Admin Control Center</p>
+            <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Digital Governance Portal</p>
         </div>
 
         <nav className="flex-grow px-4 space-y-2">
